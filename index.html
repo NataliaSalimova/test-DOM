@@ -46,6 +46,7 @@
         <script>
             const checkboxes = document.querySelectorAll('input[type=checkbox]');
             const totalPriceElement = document.getElementById('total');
+
             function addTotalPriceContent () {
                 totalPriceElement.innerHTML = `<dt>Стоимость заказанных позиций:</dt> <dd></dd>`;
             }
@@ -69,7 +70,7 @@
                 showTotalPrice();
             }
 
-            function addBgColorSelectedProducts (item) {
+            function addBgColorSelectedProducts(item) {
                 item.parentElement.style.backgroundColor = item.checked ?  'green' : 'white';
             }
 
