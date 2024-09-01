@@ -6,7 +6,7 @@
     </head>
     <body>
         <h2>Выберите пиццу</h2>
-        <form className="pizza-set">
+        <form class="pizza-set">
             <fieldset>
                 <input type="checkbox" data-price="20"/> Margaerita
             </fieldset>
@@ -44,30 +44,47 @@
         <dl id="total"></dl>
 
         <script>
+            const checkboxes = document.querySelectorAll('input[type=checkbox]');
+            const totalPriceElement = document.getElementById('total');
+            function addTotalPriceContent () {
+                totalPriceElement.innerHTML = `<dt>Стоимость заказанных позиций:</dt> <dd></dd>`;
+            }
+
+            function hideTotalPrice() {
+                totalPriceElement.setAttribute('hidden', 'true');
+            }
+
+            function showTotalPrice() {
+                if (totalPriceElement.hasAttribute('hidden')) totalPriceElement.removeAttribute('hidden');
+            }
             function getOrderPrice() {
-                const checkedInputs = document.querySelectorAll('input[type=checkbox]');
                 let totalPrice = 0;
 
-                checkedInputs.forEach((item)=> {
-                    const fieldset = item.parentNode;
-
-                    if (item.checked) {
-                        fieldset.style.backgroundColor = 'green';
-                        totalPrice += Number(item.dataset.price);
-                    } else {
-                        fieldset.style.backgroundColor = 'white';
-                    }
+                checkboxes.forEach((item)=> {
+                    addBgColorSelectedProducts(item);
+                    totalPrice += getPriceProduct(item);
                 });
 
-
-                innerTotalPrice(totalPrice);
+                updateTotalPrice(totalPrice);
+                showTotalPrice();
             }
 
-            function innerTotalPrice (price) {
-                const total = document.getElementById('total');
-
-                total.innerHTML = `<dt>Стоимость заказанных позиций:</dt> <dd>${price + ' руб'}</dd>`;
+            function addBgColorSelectedProducts (item) {
+                item.parentElement.style.backgroundColor = item.checked ?  'green' : 'white';
             }
+
+            function getPriceProduct(item ) {
+                return item.checked ? Number(item.dataset.price) : 0;
+            }
+
+            function updateTotalPrice (price) {
+                const lastTotalPriceElement = total.lastElementChild;
+
+                lastTotalPriceElement.textContent = `${price} руб.`;
+            }
+
+            hideTotalPrice();
+            addTotalPriceContent();
         </script>
     </body>
 </html>
